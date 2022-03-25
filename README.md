@@ -27,8 +27,8 @@ We've included a few helper functions to handle some of these concepts and we're
 import {filterImageFromURL, deleteLocalFiles} from './util/util';
 ```
 
-PLEASE NOTE that you need to install axios package in order to work with JIMP otherwise we dont know what exception JIMP thorws 
-npm install axios
+**PLEASE NOTE that you need to install axios package in order to work with JIMP otherwise we dont know what exception JIMP thorws 
+npm install axios**
 
 ### Deploying your system
 
