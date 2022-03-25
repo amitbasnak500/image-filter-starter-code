@@ -33,39 +33,38 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
 
   // Root Endpoint
   // Displays a simple message to the user
-  app.get("/filteredimage", async(req, res) => {
-    /*
-       Task 1: Here we need to validate query
-     */
-    let img_url: string = req.query.imageURL;
-    if(!isUrlValid(img_url)) {
-      res.status(404).send('Missing or Invalid url: ' + img_url);
-    }
-    /*
-       Task 2: call filterImageFromURL(image_url) to filter the image
-    */
-    let filteredImage: string = await filterImageFromURL(img_url);
-    if(null === filteredImage || undefined === filteredImage ) {
-      return res.status(404).send('filtered image not found');
-    }
+  app.get("/filteredimage/", async(req, res) => {
 
-    /*
-       Task 3: send the resulting file in the response
-       Task 4: deletes any files on the server on finish of the response
-    */
-    return res.status(200).sendFile('Filtered Image is' + filteredImage, () => {
-      deleteLocalFiles([filteredImage]);
-    });
+      try {
+          const img_url = req.query.image_url;
+
+          /*
+           Task 1: Here we need to validate query and return error to user in case of errors
+          */
+          console.log('Image URL: ' + img_url);
+          if(!img_url) {
+              res.status(400).send('Missing or Invalid url: ' + img_url);
+          }
+
+          /*
+           Task 2: call filterImageFromURL(image_url) to filter the image
+          */
+          let filteredImage: string = await filterImageFromURL(img_url);
+          if(null === filteredImage || undefined === filteredImage ) {
+              return res.status(404).send('filtered image not found');
+          }
+
+          /*
+           Task 3: send the resulting file in the response
+           Task 4: deletes any files on the server on finish of the response
+          */
+          return res.status(200).sendFile(filteredImage, () => deleteLocalFiles([filteredImage]));
+
+      } catch  {
+          return res.status(500).send({ err : 'Cannot process your request this time'});
+      }
   })
-
-  function isUrlValid(image_url: string) {
-    const pattern = new RegExp('/(http(s)?:\\/\\/.)?(www\\.)' +
-        '?[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\' +
-        '.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)/g)');
-    return !!pattern.test(image_url);
-  }
-
-  // Start the Server
+// Start the Server
   app.listen( port, () => {
     console.log( `server running http://localhost:${ port }` );
     console.log( `press CTRL+C to stop server` );
