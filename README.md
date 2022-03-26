@@ -36,3 +36,7 @@ Follow the process described in the course to `eb init` a new application and `e
 
 Please use below url to test on local 
 http://localhost:8082/filteredimage?image_url=https://upload.wikimedia.org/wikipedia/commons/b/bd/Golden_tabby_and_white_kitten_n01.jpg
+
+On AWS it is 
+
+http://udagram-amit.us-east-1.elasticbeanstalk.com/filteredimage?image_url=https://upload.wikimedia.org/wikipedia/commons/b/bd/Golden_tabby_and_white_kitten_n01.jpg
